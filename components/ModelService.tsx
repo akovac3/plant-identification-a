@@ -12,10 +12,6 @@ export interface ModelPrediction {
 
 export interface IModelPredictionTiming {
   totalTime:number;
-  imageLoadingTime:number;
-  imagePreprocessing:number;
-  imagePrediction:number;
-  imageDecodePrediction:number;
 }
 
 export interface IModelPredictionResponse {
@@ -101,14 +97,13 @@ export class ModelService {
 
         const model_classes = require("../assets/model_tfjs/classes.json")
         const model_plants = require("../assets/model_tfjs/labels.json")
+        const links = require("../assets/model_tfjs/links.json")
         const obj = JSON.parse(model_plants);
+        //const links = JSON.parse(link)
         console.log(obj)
         console.log(obj.Naziv)
         console.log(obj.Naziv[0])
-
-
-        //const model = await tf.loadGraphModel(bundleResourceIO(modelJSON, [modelWeights1, modelWeights2, modelWeights3]));
-        //model.predict(tf.zeros([1, imageSize, imageSize, 3]));
+        console.log(links[0])
 
         // Load the model from the models folder
     const model = await tf
@@ -138,21 +133,17 @@ export class ModelService {
             const imageTensor:tf.Tensor3D = imageToTensor(imgBuffer);
             
             
-            console.log(`Fetching Image: Done `)
-            const timeLoadDone = new Date().getTime()
-      
+            console.log(`Fetching Image: Done `)      
             console.log("Preprocessing image: Start")
             
             const preProcessedImage = preprocessImage(imageTensor,this.imageSize);
       
             console.log("Preprocessing image: Done")
-            const timePrepocessDone = new Date().getTime()
       
             console.log("Prediction: Start")
             const predictionsTensor:tf.Tensor = this.model.predict(preProcessedImage) as tf.Tensor;
             
             console.log("Prediction: Done")
-            const timePredictionDone = new Date().getTime()
       
             console.log("Post Processing: Start")
 
@@ -171,11 +162,7 @@ export class ModelService {
             const timeEnd = new Date().getTime()
             
             const timing:IModelPredictionTiming = {
-              totalTime: timeEnd-timeStart,
-              imageLoadingTime : timeLoadDone-timeStart,
-              imagePreprocessing : timePrepocessDone-timeLoadDone,
-              imagePrediction : timePredictionDone-timePrepocessDone ,
-              imageDecodePrediction : timeEnd-timePredictionDone
+              totalTime: timeEnd-timeStart
             } as IModelPredictionTiming;
             predictionResponse.timing = timing;
 

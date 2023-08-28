@@ -36,14 +36,14 @@ export function Text(props: TextProps) {
 
 export function View(props: ViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'backgroundColor');
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
 export function ScrollView(props: ViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'backgroundColor');
 
   return <DefaultScrollView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
@@ -69,7 +69,7 @@ export function ActivityIndicator(props: ViewProps) {
 
 export function ListItem(props: any) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'backgroundColor');
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
 

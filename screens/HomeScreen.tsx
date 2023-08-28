@@ -12,6 +12,7 @@ import * as MediaLibrary from 'expo-media-library';
 
 import {
   Image,
+  Linking,
   StyleSheet,
 } from 'react-native';
 import {AppConfig} from "../config"
@@ -23,6 +24,7 @@ import {Icon, ListItem} from 'react-native-elements';
 
 import * as ImagePicker from 'expo-image-picker';
 import { ModelService, IModelPredictionResponse,IModelPredictionTiming,ModelPrediction } from '../components/ModelService';
+import { TouchableOpacity } from 'react-native';
 
 
 type State = {
@@ -42,7 +44,7 @@ export default class HomeScreen extends React.Component<{},State> {
 
   state:State = {
       image: {
-        uri: 'https://www.realsimple.com/thmb/P9g1f-xU0Zr2cq2_3dMwfXizZcM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/impossible-to-kill-outdoor-plants-1-2000-f513b0574cb04674a1bce40b832b28dd.jpg',
+        uri: 'https://cdn-icons-png.flaticon.com/512/6959/6959474.png',
         width: 0,
         height: 0
       },
@@ -81,8 +83,8 @@ export default class HomeScreen extends React.Component<{},State> {
 
                 <View style={styles.actionsContainer}>
                     <View style={styles.callToActionContainer}>
-                        <Icon name='camera-alt' raised onPress={this._pickImageFromCamera}/>
-                        <Icon name='image' raised onPress={this._pickImageFromLibrary}/>
+                        <Icon size={40} name='camera-alt' raised onPress={this._pickImageFromCamera}/>
+                        <Icon size={40} name='image' raised onPress={this._pickImageFromLibrary}/>
                     </View>
                 </View>
 
@@ -115,10 +117,16 @@ export default class HomeScreen extends React.Component<{},State> {
                       {
                           predictions.map((item, index) => (
                               <ListItem key={index} >
-                                <ListItem.Content >
+                                <ListItem.Content style={{padding: 10, borderBlockColor:'black'}} >
 
-                                  <ListItem.Title>{item.className}</ListItem.Title>
+                                  <ListItem.Title style= {{fontSize: 25, fontWeight:"bold", color: "#60a66c"}}>{item.className}</ListItem.Title>
+                                  <TouchableOpacity onPress={() => Linking.openURL('http://google.com')}>
+                                      <Text style={{color: 'black', textDecorationLine:"underline", fontSize:20}}>
+                                          Google
+                                      </Text>
+                                  </TouchableOpacity>
                                   <ListItem.Subtitle>{`prob: ${item.probability.toFixed(AppConfig.precision)}`}</ListItem.Subtitle>
+
                                 </ListItem.Content>
 
                               </ListItem>
@@ -127,15 +135,7 @@ export default class HomeScreen extends React.Component<{},State> {
                   </View>
 
 
-                  <Text h3>Timing (ms)</Text>
-                  <View>
-                    <Text>total time: {this.state.timing?.totalTime}</Text>
-                    <Text>loading time: {this.state.timing?.imageLoadingTime}</Text>
-                    <Text>preprocessing time: {this.state.timing?.imagePreprocessing}</Text>
-                    <Text>prediction time: {this.state.timing?.imagePrediction}</Text>
-                    <Text>decode time: {this.state.timing?.imageDecodePrediction}</Text>
-                   
-                  </View>
+                  <Text h4>Prediction time: {this.state.timing?.totalTime} ms</Text>
 
               </View>
           )
@@ -163,7 +163,7 @@ export default class HomeScreen extends React.Component<{},State> {
               console.log("Permissions granted");
               return true
           } else {
-              alert('Hey! You have not enabled selected permissions');
+              alert('You have not enabled selected permissions!');
               return false
           }
   };
@@ -254,7 +254,6 @@ const styles = StyleSheet.create({
   contentContainer: {
       alignItems: 'center',
       justifyContent: 'center',
-
   },
   titleContainer: {
       alignItems: 'center',
@@ -266,13 +265,16 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: 5,
       marginBottom: 5,
+      padding:30
       //flex: 1,
   },
   imageContainer: {
       alignItems: 'center',
+      padding: 10
   },
   callToActionContainer: {
       flexDirection: "row"
+
   },
 
   feedBackActionsContainer: {
