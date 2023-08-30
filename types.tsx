@@ -1,22 +1,18 @@
-export type RootStackParamList = {
+export type RootStackParams = {
   Root: undefined;
   NotFound: undefined;
 };
 
-export type BottomTabParamList = {
+export type BottomTabParams = {
   Home: undefined;
   About: undefined;
-  Debug: undefined;
 };
 
-export type HomeParamList = {
+export type HomeParams = {
   HomeScreen: undefined;
 };
 
-export type AboutParamList = {
+export type AboutParams = {
   AboutScreen: undefined;
 };
 
-export type DebugParamList = {
-  DebugScreen: undefined;
-};

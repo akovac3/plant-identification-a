@@ -7,6 +7,8 @@ import {AppConfig} from "../config"
 
 export interface ModelPrediction {
   className:string;
+  link:string;
+  latin:string;
   probability:number;
 }
 
@@ -55,7 +57,7 @@ const preprocessImage = (img:tf.Tensor3D,imageSize:number) =>{
       
 }
 
-const decodePredictions = (predictions:tf.Tensor, classes:String[],topK=3) =>{
+const decodePredictions = (predictions:tf.Tensor, classes:String[],links:String[], latins:String[], topK=3) =>{
   const {values, indices} = predictions.topk(topK);
   const topKValues = values.dataSync();
   const topKIndices = indices.dataSync();
@@ -64,6 +66,8 @@ const decodePredictions = (predictions:tf.Tensor, classes:String[],topK=3) =>{
   for (let i = 0; i < topKIndices.length; i++) {
     topClassesAndProbs.push({
       className: classes[topKIndices[i]],
+      link:links[topKIndices[i]],
+      latin:latins[topKIndices[i]],
       probability: topKValues[i]
     } as ModelPrediction);
   }
@@ -75,14 +79,19 @@ export class ModelService {
 
     private model:tf.LayersModel;
     private model_classes: String[];
+    private model_links: String[];
+    private model_latins: String[];
+
     private model_plants: String[] = [];
     private imageSize:number;
     private static instance: ModelService;
 
-    constructor(imageSize:number,model:tf.LayersModel, model_classes: String[] ){
+    constructor(imageSize:number,model:tf.LayersModel, model_classes: String[],  model_links: String[], model_latins: String[]){
         this.imageSize=imageSize;
         this.model = model;
         this.model_classes=model_classes;
+        this.model_links=model_links;
+        this.model_latins=model_latins;
     }
 
 
@@ -97,13 +106,8 @@ export class ModelService {
 
         const model_classes = require("../assets/model_tfjs/classes.json")
         const model_plants = require("../assets/model_tfjs/labels.json")
-        const links = require("../assets/model_tfjs/links.json")
-        const obj = JSON.parse(model_plants);
-        //const links = JSON.parse(link)
-        console.log(obj)
-        console.log(obj.Naziv)
-        console.log(obj.Naziv[0])
-        console.log(links[0])
+        const model_links = require("../assets/model_tfjs/links.json")
+        const model_latins = require("../assets/model_tfjs/latins.json")
 
         // Load the model from the models folder
     const model = await tf
@@ -112,7 +116,7 @@ export class ModelService {
     console.log("Model loaded!");
 
         
-        ModelService.instance = new ModelService(imageSize,model,model_classes);
+        ModelService.instance = new ModelService(imageSize,model,model_classes, model_links, model_latins);
       }
 
       return ModelService.instance;
@@ -150,8 +154,8 @@ export class ModelService {
         
       
             // post processing
-            predictionResponse.predictions  = decodePredictions(predictionsTensor,this.model_classes,AppConfig.topK);
-            console.log(predictionsTensor.dataSync())
+            predictionResponse.predictions  = decodePredictions(predictionsTensor,this.model_classes,this.model_links, this.model_latins, AppConfig.topK);
+           // console.log(predictionsTensor.dataSync())
             
             //tf.dispose(imageTensor);
             //tf.dispose(preProcessedImage);

@@ -8,45 +8,54 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import AboutScreen from '../screens/AboutScreen';
-import DebugScreen from '../screens/DebugScreen';
-import { BottomTabParamList, HomeParamList, AboutParamList, DebugParamList } from '../types';
+import { BottomTabParams, HomeParams, AboutParams } from '../types';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const Tab = createBottomTabNavigator<BottomTabParams>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
 
   return (
-    <BottomTab.Navigator
+    <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
-      <BottomTab.Screen
+      <Tab.Screen
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon color={color} text={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />,
+          tabBarLabel: 'Početna', // Promijenjen tekst za tab
+          tabBarIcon: ({ color }) => (
+            <Ionicons
+              size={30}
+              style={{ marginBottom: -3 }}
+              color={color}
+              name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
+            />
+          ),
         }}
       />
-      <BottomTab.Screen
+      <Tab.Screen
         name="About"
         component={TabAboutNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon color={color} text={Platform.OS === 'ios' ? 'ios-information' : 'md-information'} />,
+          tabBarLabel: 'O aplikaciji', // Promijenjen tekst za tab
+          tabBarIcon: ({ color }) => (
+            <Ionicons
+              size={30}
+              style={{ marginBottom: -3 }}
+              color={color}
+              name={Platform.OS === 'ios' ? 'ios-information' : 'md-information'}
+            />
+          ),
         }}
       />
-    </BottomTab.Navigator>
+    </Tab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { text: string; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const HomeStack = createStackNavigator<HomeParamList>();
+const HomeStack = createStackNavigator<HomeParams>();
 
 function HomeNavigator() {
   return (
@@ -54,36 +63,22 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: 'Home' }}
+        options={{ headerTitle: 'Početna' }}
       />
     </HomeStack.Navigator>
   );
 }
 
-const AboutTabStack = createStackNavigator<AboutParamList>();
+const AboutStack = createStackNavigator<AboutParams>();
 
 function TabAboutNavigator() {
   return (
-    <AboutTabStack.Navigator>
-      <AboutTabStack.Screen
+    <AboutStack.Navigator>
+      <AboutStack.Screen
         name="AboutScreen"
         component={AboutScreen}
-        options={{ headerTitle: 'About' }}
+        options={{ headerTitle: 'O aplikaciji' }}
       />
-    </AboutTabStack.Navigator>
-  );
-}
-
-const DebugTabStack = createStackNavigator<DebugParamList>();
-
-function TabDebugNavigator() {
-  return (
-    <DebugTabStack.Navigator>
-      <DebugTabStack.Screen
-        name="DebugScreen"
-        component={DebugScreen}
-        options={{ headerTitle: 'Debug' }}
-      />
-    </DebugTabStack.Navigator>
+    </AboutStack.Navigator>
   );
 }

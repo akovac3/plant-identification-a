@@ -7,7 +7,7 @@ This app lets you submit a photo of plant and returns the predicted plant catego
     `
     ,imageSize :180
     ,topK:3 
-    ,precision:2
+    ,precision:0
 
 };
 

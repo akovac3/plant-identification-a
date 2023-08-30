@@ -70,15 +70,15 @@ export default class HomeScreen extends React.Component<{},State> {
     return (
         <ScrollView style={styles.container}>
           <View style={styles.contentContainer} >
-            <View style={styles.container} >
-
+              <View>
                 <View style={styles.titleContainer}>
                     <Text h1>{AppConfig.title}</Text>
                 </View>
 
 
                 <View>
-                  <Text>Model Status: {modelLoadingStatus}</Text>
+                  <Text>Status modela: {modelLoadingStatus}</Text>
+                </View>
                 </View>
 
                 <View style={styles.actionsContainer}>
@@ -89,15 +89,11 @@ export default class HomeScreen extends React.Component<{},State> {
                 </View>
 
                 <View style={styles.imageContainer}>
-                    <Image source={this.state.image} style={{height: 200, width: 200}}/>
+                    <Image source={this.state.image} style={{height: 250, width: 250}}/>
                 </View>
 
-
-                <View style={styles.predictionsContainer}>
-                    {this.renderPredictions()}
+                    {this.renderPredictions()}                
                 </View>
-            </View>
-            </View>
         </ScrollView>
     );
   }
@@ -112,30 +108,30 @@ export default class HomeScreen extends React.Component<{},State> {
       if (predictions.length > 0) {
           return (
               <View style={styles.predictionsContentContainer}>
-                  <Text h3>Predictions</Text>
-                  <View>
+              <Text h3> Rezultat </Text>
                       {
                           predictions.map((item, index) => (
-                              <ListItem key={index} >
-                                <ListItem.Content style={{padding: 10, borderBlockColor:'black'}} >
+                              <ListItem key={index} style={styles.predictionsListContainer}>
+                                <ListItem.Content style={{padding: 5}} >
 
                                   <ListItem.Title style= {{fontSize: 25, fontWeight:"bold", color: "#60a66c"}}>{item.className}</ListItem.Title>
-                                  <TouchableOpacity onPress={() => Linking.openURL('http://google.com')}>
-                                      <Text style={{color: 'black', textDecorationLine:"underline", fontSize:20}}>
-                                          Google
+                                  <ListItem.Title style= {{fontSize: 20, color: "#60a66c"}}>{item.latin}</ListItem.Title>
+                                  <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
+                                      <Text style={{marginTop:10, marginBottom:10, color: 'black', textDecorationLine:"underline", fontSize:15}}>
+                                      {`${item.link}`} 
                                       </Text>
                                   </TouchableOpacity>
-                                  <ListItem.Subtitle>{`prob: ${item.probability.toFixed(AppConfig.precision)}`}</ListItem.Subtitle>
+                                    <Text style={{fontSize:12, textAlign:'right'}}>{`Vjerovatnoća: ${(item.probability*100).toFixed(AppConfig.precision)}%`}</Text>
 
                                 </ListItem.Content>
 
                               </ListItem>
                           ))
                       }
-                  </View>
 
 
-                  <Text h4>Prediction time: {this.state.timing?.totalTime} ms</Text>
+
+                  <Text style={{textAlign: 'right'}}>Vrijeme: {this.state.timing?.totalTime} ms</Text>
 
               </View>
           )
@@ -179,9 +175,6 @@ export default class HomeScreen extends React.Component<{},State> {
         })
 
         if (!response.canceled) {
-          //const source = { uri: response.uri }
-
-          //this.setState({ image: source })
           this._classifyImage(response.assets[0].uri)
         }
       } catch (error) {
@@ -248,7 +241,7 @@ export default class HomeScreen extends React.Component<{},State> {
 const styles = StyleSheet.create({
   container: {
       paddingTop: 5,
-      flex: 1,
+      flex: 1
   },
 
   contentContainer: {
@@ -256,10 +249,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
   },
   titleContainer: {
-      alignItems: 'center',
       marginTop: 10,
+      marginBottom:10,
       //flex: 2,
-      justifyContent: 'center',
   },
   actionsContainer: {
       alignItems: 'center',
@@ -281,14 +273,33 @@ const styles = StyleSheet.create({
       flexDirection: "row"
   },
 
+
   predictionsContainer: {
-      padding: 10,
-      justifyContent: 'center',
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  predictionsContentContainer: {
+    flex: 1,
+    width:320,
+    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)', // Transparent background
+    borderRadius: 10,
+    marginBottom:20,
+    marginTop:20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    elevation: 5, // Android shadow
+  },
+  predictionsListContainer: {
+        borderRadius: 10,
+        padding: 10,
+    shadowColor: '#000',
+
   },
 
-  predictionsContentContainer: {
-      padding: 10,
-  },
   predictionRow: {
       flexDirection: "row",
   },
