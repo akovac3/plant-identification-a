@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 
 import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import AboutScreen from '../screens/AboutScreen';
 import { BottomTabParams, HomeParams, AboutParams } from '../types';
@@ -13,17 +12,16 @@ import { BottomTabParams, HomeParams, AboutParams } from '../types';
 const Tab = createBottomTabNavigator<BottomTabParams>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
 
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{ activeTintColor: Colors.tint }}>
       <Tab.Screen
         name="Home"
         component={HomeNavigator}
         options={{
-          tabBarLabel: 'Početna', // Promijenjen tekst za tab
+          tabBarLabel: 'Početna', 
           tabBarIcon: ({ color }) => (
             <Ionicons
               size={30}
@@ -38,7 +36,7 @@ export default function BottomTabNavigator() {
         name="About"
         component={TabAboutNavigator}
         options={{
-          tabBarLabel: 'O aplikaciji', // Promijenjen tekst za tab
+          tabBarLabel: 'O aplikaciji',
           tabBarIcon: ({ color }) => (
             <Ionicons
               size={30}
@@ -53,8 +51,7 @@ export default function BottomTabNavigator() {
   );
 }
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
+//Svaki tab ima svoj vlastiti navigacijski stek
 const HomeStack = createStackNavigator<HomeParams>();
 
 function HomeNavigator() {

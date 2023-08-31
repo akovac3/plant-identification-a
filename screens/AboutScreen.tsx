@@ -12,23 +12,18 @@ export default function AboutScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={[styles.text, { color: color }]}>{AppConfig.title}</Text>
-      <Text style={[styles.description, { color: color }]}>{AppConfig.description}</Text>
-      <View style={styles.container}>
-        <View style={{}}>
+      <View style={styles.predictionsContainer}>
+       <View style={styles.predictionsContentContainer}>
+      <Text style={[styles.text, { color: color }]}>{AppConfig.naslov}</Text>
+      <Text style={[styles.description, { color: color }]}>{AppConfig.opis}</Text>
         <Text style={[styles.text, { color: color }]}>Classes</Text>
-        </View>
-
-       <View>
           {modelClasses.map((p: string) => {
             return (
-              <View key={p} >
-                <Text>{p}</Text>
-              </View>
+                <Text key={p}>{p}</Text>
             );
           })}
        </View>
-    </View>
+       </View>
     </ScrollView>
 
     
@@ -49,7 +44,27 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     marginTop: 1,
-    textAlign: 'center',
+    textAlign:'justify',
     paddingHorizontal: 10,
+  },
+  
+  predictionsContainer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  predictionsContentContainer: {
+    flex: 1,
+    width:320,
+    padding: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)', // Transparent background
+    borderRadius: 10,
+    marginBottom:20,
+    marginTop:10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    elevation: 5, // Android shadow
   },
 });

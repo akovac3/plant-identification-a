@@ -4,21 +4,22 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 
 export default function useCachedResources() {
+  //vrijednost u kojoj se cuva status
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
 
-  // Load any resources or data that we need prior to rendering the app
+  //Ovaj hook se koristi kako bi se učitali potrebni resursi prije renderiranja aplikacije.
   React.useEffect(() => {
+    //funkcija za učitavanje resursa i podataka
     async function loadResourcesAndDataAsync() {
       try {
         SplashScreen.preventAutoHideAsync();
 
-        // Load fonts
+        // Učitavanje fontova za ikone i space-mono font
         await Font.loadAsync({
           ...Ionicons.font,
           'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
         });
       } catch (e) {
-        // We might want to provide this error information to an error reporting service
         console.warn(e);
       } finally {
         setLoadingComplete(true);
