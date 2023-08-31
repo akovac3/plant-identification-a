@@ -5,7 +5,7 @@ import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { Image, Linking, StyleSheet } from 'react-native';
 import { AppConfig } from "../config";
-import { Text, View, ActivityIndicator, ScrollView } from '../components/Themed';
+import { Text, View, ActivityIndicator, ScrollView } from '../components/Theme';
 import { Icon, ListItem } from 'react-native-elements';
 import * as ImagePicker from 'expo-image-picker';
 import { ModelService, odgovorModela, VrijemePredikcije, PredikcijaModela } from '../components/ModelService';
@@ -54,8 +54,8 @@ export default class PočetnaStranica extends React.Component<{}, Stanje> {
       <ScrollView style={styles.kontejner}>
         <View style={styles.content}>
           <View>
-            <View style={styles.naslov}>
-              <Text h1>{AppConfig.naslov}</Text>
+            <View>
+              <Text style={[styles.naslov, { color: '#3b3b3b' }]}>{AppConfig.naslov}</Text>
             </View>
             <View>
               <Text>Status modela: {statusUcitavanjaModela}</Text>
@@ -208,8 +208,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   naslov: {
+    fontSize: 40,
+    fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
+    textAlign:'center'
   },
   akcijeKontejner: {
     alignItems: 'center',

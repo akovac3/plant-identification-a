@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { View } from '../components/Themed';
+import { View } from '../components/Theme';
 import { AppConfig } from '../config';
-import { getColor } from '../components/Themed';
+import { getColor } from '../components/Theme';
 import { ScrollView } from 'react-native';
 
 export default function AboutScreen() {
@@ -15,11 +15,14 @@ export default function AboutScreen() {
       <View style={styles.predictionsContainer}>
        <View style={styles.predictionsContentContainer}>
       <Text style={[styles.text, { color: color }]}>{AppConfig.naslov}</Text>
-      <Text style={[styles.description, { color: color }]}>{AppConfig.opis}</Text>
-        <Text style={[styles.text, { color: color }]}>Classes</Text>
+      <Text style={[styles.dobrodosli, { color: color }]}>Dobrodošli!</Text>
+      <Text style={[styles.description, { color: color }]}>{AppConfig.opis1}</Text>
+      <Text style={[styles.description, { color: color }]}>{AppConfig.opis2}</Text>
+
+        <Text style={[styles.text, { color: color }]}>Dostupne biljke</Text>
           {modelClasses.map((p: string) => {
             return (
-                <Text key={p}>{p}</Text>
+                <Text style={{textAlign: 'center'}} key={p}>{p}</Text>
             );
           })}
        </View>
@@ -40,11 +43,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginTop: 20,
+    marginBottom: 10,
+    textAlign:'center'
   },
+
+  dobrodosli: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    textAlign:'left'
+  },
+
   description: {
     fontSize: 16,
     marginTop: 1,
-    textAlign:'justify',
+    paddingLeft:10,
     paddingHorizontal: 10,
   },
   
