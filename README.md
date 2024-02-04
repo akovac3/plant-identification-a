@@ -20,3 +20,7 @@ Kako koristiti aplikaciju:
     
 
 Aplikacija u pozadini koristi MobileNetV2 model dubokog učenja za klasifikaciju biljaka. Za izgradnju aplikacije korišten je React Native framework i Typescript programski jezik, te je ova aplikacija pogodna za pokretanje kako na Android tako i na iOS uređajima.
+
+
+Video aplikacije:
+https://drive.google.com/file/d/1jUdiRl1n1EODIfGNS0NyHFwbi4AOg9K8/view?usp=sharing
